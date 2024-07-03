@@ -26,7 +26,7 @@ const ItemListConteiner = ({ title }) => {
   return (
     <>
       <Stack spacing={6} p={4}>
-        <Text fontSize="xl">{title}</Text>
+        <Text fontSize='3xl' fontWeight='bold' textAlign='center' marginTop='4'>{title}</Text>
         <SimpleGrid columns={[1, 2, 3]} spacing={6}>
           {products.map(product => (
             <Box key={product.id} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md">

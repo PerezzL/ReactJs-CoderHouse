@@ -5,6 +5,7 @@ import { Menu, MenuButton, MenuList, MenuItem, Button, Flex } from '@chakra-ui/r
 import { useNavigate } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
 
+
 const NavBar = () => {
   const navigate = useNavigate();
 
