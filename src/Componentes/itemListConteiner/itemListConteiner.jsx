@@ -30,13 +30,7 @@ const ItemListConteiner = ({ title }) => {
         <SimpleGrid columns={[1, 2, 3]} spacing={6}>
           {products.map(product => (
             <Box key={product.id} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md">
-                <ProductCard
-                  name={product.name}
-                  description={product.description}
-                  imageUrl={product.imageUrl}
-                  price={product.price}
-                  stock={product.stock}
-                />
+                <ProductCard {...product} />
             </Box>
           ))}
         </SimpleGrid>

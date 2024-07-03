@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Image, Text, Button, Stack } from '@chakra-ui/react';
+import { Box, Image, Text, Stack } from '@chakra-ui/react';
 
 const ItemDetail = ({ name, description, imageUrl, price, stock }) => {
   return (

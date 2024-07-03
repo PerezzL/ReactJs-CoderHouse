@@ -1,10 +1,10 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from './Componentes/NavBar/NavBar';
 import { ChakraProvider } from '@chakra-ui/react';
-import ItemListConteiner from './Componentes/ItemListConteiner/ItemListConteiner';
+import ItemListConteiner from './Componentes/ItemListConteiner/ItemListConteiner.jsx';
 import ItemDetailContainer from './Componentes/ItemDetailContainer/ItemDetailContainer';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (

@@ -1,12 +1,11 @@
 import React from 'react';
-import ItemCount from '../ItemCount/ItemCount';
-import { ToastContainer, toast } from 'react-toastify';
-import { Box, Image, Text, Button, Stack, ButtonGroup } from '@chakra-ui/react';
+import { Box, Image, Text, Stack, Button, ButtonGroup } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-const ProductCard = ({ name, description, id, imageUrl, price, stock }) => {
+const ProductCard = ({ name, description, imageUrl, price, stock, id }) => {
   const onAdd = (quantity) => {
-    toast(`Agregaste ${quantity} productos`);
+    // Lógica para agregar productos al carrito
+    alert(`Agregaste ${quantity} productos`);
   };
 
   return (
@@ -21,14 +20,12 @@ const ProductCard = ({ name, description, id, imageUrl, price, stock }) => {
         <Text fontSize="lg" color="teal.600">
           ${price}
         </Text>
-        <ButtonGroup spacing='2'>
-          <ItemCount initialValue={1} stock={stock} onAdd={onAdd} />
+        <ButtonGroup spacing="2">
+          <Button colorScheme="teal" as={Link} to={`/product/${id}`}>
+            Ver detalles
+          </Button>
         </ButtonGroup>
-        <Button colorScheme="teal" as={Link} to={`/product/${id}`}>
-          Ver detalles
-        </Button>
       </Stack>
-      <ToastContainer />
     </Box>
   );
 };
