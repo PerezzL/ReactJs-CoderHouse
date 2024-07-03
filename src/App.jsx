@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<ItemListConteiner title="Sportacus Shop" />} />
           <Route path="/category/:categoryId" element={<ItemListConteiner title="Sportacus Shop" />} />
           <Route path="/product/:productId" element={<ItemDetailContainer />} />
-          <Route path="/PageNotFound" element={<PageNotFound />} />
+          <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </ChakraProvider>
