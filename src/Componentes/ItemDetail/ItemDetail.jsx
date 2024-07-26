@@ -1,30 +1,111 @@
-import React from 'react';
-import { Box, Image, Text, Button, Stack } from '@chakra-ui/react';
-import ItemCount from '../ItemCount/ItemCount';
+import React, { useContext, useState } from 'react'
+import { Card, Heading, Text, Divider, Image, Flex, Link as ChakraLink } from '@chakra-ui/react'
+import ItemCount from '../ItemCount/ItemCount'
+import { ToastContainer, toast } from 'react-toastify';
+import Context from '../../context/CartContext';
+import { Link } from 'react-router-dom';
+import { MdOutlineShoppingCartCheckout, MdOutlineShoppingBag  } from "react-icons/md";
 
-const ItemDetail = ({ product, onAdd }) => {
-    const { name, description, imageUrl, price, stock } = product;
-    
+const ItemDetail = ({ name, description, id, imageUrl, price, stock, category}) => {
+  const [ quantity, setQuantity ] = useState(0)
+  const { addItem } = useContext(Context)
+
+    const onAdd = (quantity) => {
+      const item = {
+        id,
+        name,
+        price,
+      }
+      setQuantity(quantity)
+      addItem(item, quantity)
+        toast.success(`Agregaste ${quantity} productos`)
+    }
+
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} boxShadow="md">
-      <Image src={imageUrl} alt={name} boxSize="300px" mx="auto" />
+    <>
+      <Card w={'80%'} h={'100%'} boxShadow='lg' mt={10} >
+          <Flex bg={'#3F747D'} h={'5rem'} justify={'flex-start'} align={'center'} borderRadius={'5px 5px 0 0'} >
+          <Text ml={2} fontSize="md" color="#c5d0d3">Categoría: {category}</Text>
+          </Flex>
+          <Flex
+              wrap={'wrap'}
+              align={'center'}
+              justify={'space-between'}
+              w={'100%'} 
+              h={'100%'}
+              className='cardFlex'
+              >
+              <Flex
+                  w={'40%'}
+                  h={'90%'}
+                  justify={'center'}
+                  align={'center'}
+                  >
 
-      <Stack mt={4} spacing={2}>
-        <Text fontWeight="bold" fontSize="xl">
-          {name}
-        </Text>
-        <Text color="gray.500">{description}</Text>
-        <Text fontSize="lg" color="teal.600">
-          Precio: ${price}
-        </Text>
-        <Text>Stock disponible: {stock}</Text>
-        <ItemCount initialValue={1} stock={stock} onAdd={onAdd} />
-        <Button colorScheme="teal" mt={4} onClick={() => onAdd(1)}>
-            Agregar al carrito
-        </Button>
-      </Stack>
-    </Box>
-  );
-};
+              <Image
+              src={imageUrl}
+              alt={name}
+              borderRadius="lg"
+              boxSize='100%'
+              objectFit='contain' 
+              w='100%'
+              h='400px' 
+              rowSpan={2} colSpan={1} 
+              ml={2}
+              />
+              </Flex>
+              <Flex
+                  direction={'column'}
+                  justify={'space-around'}
+                  align={'start'}
+                  w={'50%'}
+                  minHeight={'400px'}
+                  >
+              <Heading size="xl" color="#F3F3EF" h={'4rem'}  > {name}</Heading>
+              <Text color="#F3F3EF" fontSize="xl" w={'95%'}  >
+                  {description}
+              </Text>
+              <Text color="#3F74F3F3EF7D" fontSize="2xl"  >
+                  ${price}
+              </Text>
+              </Flex>
+              <Flex w={'100%'} h={'10%'} justify={'center'} align={'center'} pb={5}>
+              {
+                quantity > 0 ? 
+                <Flex 
+                    justify={'space-around'} 
+                    align={'center'} 
+                    w={'100%'}
+                    bg={'#416d6d'}
+                    h={'5rem'} 
+                    color={'#fff'}
+                    
+                    >
+                    <Flex justify={'center'} align={'center'} w={'100%'} _hover={{ bg: '#608e8e', color: '#fff' }} >
+                        <ChakraLink mr={4} w={'50%'} fontSize={'1.2rem'} as={Link} to='/cart'>Ir al carrito</ChakraLink>
+                        <Flex justify={'center'} w={'20%'} align={'center'} bg={'#c86f43'}  h={'5rem'}>
+                            <MdOutlineShoppingCartCheckout fontSize={'2rem'}/>
+                        </Flex>
+                    </Flex>
+                    <Divider orientation='vertical' />
+                    <Flex justify={'center'} align={'center'} w={'100%'} _hover={{ bg: '#608e8e', color: '#fff' }}>
+                        <ChakraLink mr={4} w={'50%'}  fontSize={'1.2rem'} as={Link} to='/'>Seguir comprando</ChakraLink>
+                        <Flex justify={'center'} w={'20%'} align={'center'} bg={'#c86f43'}  h={'5rem'}>
+                            <MdOutlineShoppingBag fontSize={'2rem'} />
+                        </Flex>
+                    </Flex>
+                </Flex>
+                :
+                <Flex w={'100%'} justify={'center'} align={'center'} pb={5}>
+                    <ItemCount stock={stock} initialValue={1} onAdd={onAdd} />
+                </Flex>
+            }
+              </Flex>              
+          </Flex>
+      </Card>
+      <ToastContainer />
+    </>
+  )
+}
 
-export default ItemDetail;
+export default ItemDetail

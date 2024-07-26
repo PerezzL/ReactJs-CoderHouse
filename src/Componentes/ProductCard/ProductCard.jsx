@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const ProductCard = ({ name, description, imageUrl, price, stock, id }) => {
   const onAdd = (quantity) => {
-    // Lógica para agregar productos al carrito
     alert(`Agregaste ${quantity} productos`);
   };
 

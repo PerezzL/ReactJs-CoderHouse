@@ -2,25 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Box, SimpleGrid, Stack, Text, Button } from '@chakra-ui/react';
 import ProductCard from '../ProductCard/ProductCard';
-import { getProducts, getProductsByCategory } from '../../ObjetosDummies/ObjetosDummies';
+import { db } from '../../config/firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const ItemListConteiner = ({ title }) => {
   const [products, setProducts] = useState([]);
   const { categoryId } = useParams();
   const [loading, setLoading] = useState(true);
 
+  console.log(db);
+
   useEffect(() => {
-    setLoading(true);
-    const fetchProducts = categoryId ? getProductsByCategory : getProducts;
-    fetchProducts(categoryId)
-      .then(data => {
-        setProducts(data);
+    setLoading(false);
+      const getData = async() => {
+        const colecction = collection(db, 'products');
+        const queryRef = !categoryId ?  colecction : query(colecction, where('category', '==', categoryId));
+        const response = await getDocs(queryRef);
+        console.log(response)
+
+        const productos = response.docs.map((docs) => {
+          const newItem = {          
+            ...docs.data(),
+            id: docs.id
+          }
+          return newItem
+        })
+        setProducts(productos);
         setLoading(false);
-      })
-      .catch(error => {
-        console.error("Error fetching products:", error);
-        setLoading(false);
-      });
+      }
+      getData();
   }, [categoryId]);
 
   return (
@@ -37,6 +47,7 @@ const ItemListConteiner = ({ title }) => {
       </Stack>
     </>
   );
+
 };
 
 export default ItemListConteiner;
