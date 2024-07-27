@@ -16,11 +16,11 @@ const ProductCard = ({ name, description, imageUrl, price, stock, id }) => {
           {name}
         </Text>
         <Text color="gray.500">{description}</Text>
-        <Text fontSize="lg" color="teal.600">
+        <Text fontSize="lg" color="#3498db">
           ${price}
         </Text>
         <ButtonGroup spacing="2">
-          <Button colorScheme="teal" as={Link} to={`/product/${id}`}>
+          <Button bg="#5784a7" color="black" as={Link} to={`/product/${id}`}>
             Ver detalles
           </Button>
         </ButtonGroup>

@@ -7,16 +7,16 @@ const ItemCount = ({initialValue, stock, onAdd}) => {
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center" gap="4">
-      <Button colorScheme="teal" size="sm" onClick={restar}>
+      <Button bg={"#5784a7"} size="sm" onClick={restar}>
         -
       </Button>
       <Text fontSize="2xl" fontWeight="bold">
         {count}
       </Text>
-      <Button colorScheme="teal" size="sm" onClick={sumar}>
+      <Button bg={"#5784a7"} size="sm" onClick={sumar}>
         +
       </Button>
-      <Button mt={2} mb={2} colorScheme='teal' onClick = {() => onAdd(count)}>
+      <Button mt={2} mb={2} bg={"#5784a7"} onClick = {() => onAdd(count)}>
         Agregar al Carrito
       </Button>
     </Box>

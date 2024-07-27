@@ -18,12 +18,12 @@ const ItemDetail = ({ name, description, id, imageUrl, price, stock }) => {
     }
     setQuantity(quantity);
     addItem(item, quantity);
-      toast.success(`Agregaste ${quantity} productos`);
+    toast.success(`Agregaste ${quantity} productos`);
   }
 
   return (
     <>
-      <Card w={'80%'} h={'100%'} boxShadow='lg' mt={10}>
+      <Card w={'80%'} h={'100%'} mt={10} borderColor={"black"} borderRadius={"20px"} borderWidth={"2px"}>
         <Flex
           wrap={'wrap'}
           align={'center'}
@@ -66,13 +66,18 @@ const ItemDetail = ({ name, description, id, imageUrl, price, stock }) => {
             <Text color="#3F74F3F3EF7D" fontSize="2xl">
               ${price}
             </Text>
-            <Flex>
-              <ItemCount stock={stock} initialValue={1} onAdd={onAdd} />
-            </Flex>
+            {stock > 0 ? (
+              <Flex>
+                <ItemCount stock={stock} initialValue={1} onAdd={onAdd} />
+              </Flex>
+            ) : (
+              <Text color="red" fontSize="xl" fontWeight="bold">
+                Sin stock
+              </Text>
+            )}
           </Flex>
         </Flex>
       </Card>
-      <ToastContainer />
     </>
   );
 };
