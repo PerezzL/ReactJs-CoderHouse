@@ -11,4 +11,4 @@ const useCounter = (initialValue, stock) => {
     }
     return {count, sumar, restar}
 }
-export default useCounter
+export default useCounter;

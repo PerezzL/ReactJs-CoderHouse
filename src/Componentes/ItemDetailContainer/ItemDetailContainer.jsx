@@ -13,23 +13,19 @@ const ItemDetailContainer = () => {
 
     useEffect(() => {
         const getData = async () => {
-
-            // obtenemos la referencia al documento específico en la colección, para eso filtramos por el parámetro
-            const queryRef = doc(db, 'productos', productId)
-
-            // creamos una referencia de consulta (queryRef)
+            const queryRef = doc(db, 'products', productId)
             const response = await getDoc(queryRef)
 
-            // creamos un objeto que contiene los datos del doc + el id
             const newItem = {
                 ...response.data(),
                 id: response.id
             }
+            console.log('Product data:', newItem);
             setProduct(newItem)
             setLoading(false)
         }
         getData()
-    }, [])
+    }, [productId])
 
     return (
         <Box>
@@ -47,4 +43,4 @@ const ItemDetailContainer = () => {
     )
 }
 
-export default ItemDetailContainer
+export default ItemDetailContainer;

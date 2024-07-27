@@ -16,8 +16,11 @@ const ItemCount = ({initialValue, stock, onAdd}) => {
       <Button colorScheme="teal" size="sm" onClick={sumar}>
         +
       </Button>
+      <Button mt={2} mb={2} colorScheme='teal' onClick = {() => onAdd(count)}>
+        Agregar al Carrito
+      </Button>
     </Box>
   )
 }
 
-export default ItemCount
+export default ItemCount;
