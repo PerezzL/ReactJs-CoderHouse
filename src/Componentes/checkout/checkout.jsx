@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import Context from '../../context/CartContext'
+import { useNavigate } from 'react-router-dom'
 import {
     Box,
     Button,
@@ -22,7 +23,7 @@ import {
     useToast,
   } from '@chakra-ui/react';
 import { db } from '../../config/firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, doc, updateDoc, getDoc } from 'firebase/firestore';
 
 const checkout = () => {
     const [user, setUser] = useState({
@@ -33,8 +34,9 @@ const checkout = () => {
     })
     const [error, setError] = useState({});
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { cart, getTotalPrice } = useContext(Context);
+    const { cart, getTotalPrice, clearCart } = useContext(Context);
     const toast = useToast();
+    const navigate = useNavigate();
 
     const updateUser = (event) => {
         setUser((user) => ({
@@ -79,6 +81,23 @@ const checkout = () => {
         }
     };
 
+    const updateStock = async () => {
+      for (const prod of cart) {
+          const itemRef = doc(db, 'products', prod.id);
+          const itemDoc = await getDoc(itemRef);
+          if (itemDoc.exists()) {
+              const newStock = itemDoc.data().stock - prod.quantity;
+              if (newStock >= 0) {
+                  await updateDoc(itemRef, { stock: newStock });
+              } else {
+                  throw new Error(`Stock insuficiente para el producto: ${prod.name}`);
+              }
+          } else {
+              throw new Error(`Producto no encontrado: ${prod.name}`);
+          }
+      }
+  };
+
     const getOrder = async () => {
         if (cart.length === 0) {
             toast({
@@ -100,7 +119,8 @@ const checkout = () => {
                 total: getTotalPrice(),
                 fechaDeCompra: Timestamp.now()
             }
-            const orderRef = await addDoc(orderCollection, order)
+            const orderRef = await addDoc(orderCollection, order);
+            await updateStock();
             toast({
                 title: "Compra exitosa",
                 description: `Tu orden ha sido creada con el ID: ${orderRef.id}`,
@@ -109,6 +129,8 @@ const checkout = () => {
                 isClosable: true,
             });
             onClose();
+            navigate('/');
+            clearCart();
         } catch (error) {
             toast({
                 title: "Error en la compra",
